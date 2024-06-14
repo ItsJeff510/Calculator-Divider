@@ -8,7 +8,6 @@ public class Main {
     public static void runMenu() {
         int input = 0;
         int counter = 0;
-        boolean trigger = false;
         HashMap<String, Double> people = new HashMap<>();
         HashMap<String, Double> amountToRecieve = new HashMap<>();
         HashMap<String, Double> amountToSend = new HashMap<>();
@@ -44,19 +43,19 @@ public class Main {
                 case 2 -> {
                     System.out.print("Enter the name of the person you want to remove: ");
                     name = obj.nextLine();
-                    for (String i : people.keySet()) {
-                        if (i.equals(name)) {
+
+                    if (people.containsKey(name)) {
                             people.remove(name);
-                            System.out.printf("%s has been removed.", name);
-                            trigger = true;
-                        }
+                            System.out.printf("%s has been removed.\n", name);
+                            
+                            if (!amountToSend.isEmpty() && !amountToRecieve.isEmpty()) {
+                                amountToSend.clear();
+                                amountToRecieve.clear();
+                            }
+                    } else {
+                        System.out.println("\nThe name was not found, please try another name or be Case Sensetive.");
                     }
 
-                    if (trigger == false) {
-                        System.out.println("\nThe name was not found, please try another name or be Case Sensetive.");
-                    } else {
-                        trigger = false;
-                    }
                 }
                 case 3 -> { // Case three takes all the people and values and displays them
                     for (String i : people.keySet()) {
@@ -119,6 +118,7 @@ public class Main {
                 default -> System.out.println("\nThat is not an option, please try again!\n");
             }
         }
+        obj.close();
     }
 
     public static void printMenu() {
